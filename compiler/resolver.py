@@ -53,6 +53,7 @@ def resolve_concept(concept: str, linguistic_metadata: dict) -> dict:
                     "entity": binding.get("table"),
                     "column": binding.get("column"),
                     "measure": binding.get("measure", False),
+                    "dataType": binding.get("dataType"),
                     "score": round(final_score, 3)
                 }
 

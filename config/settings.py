@@ -2,7 +2,7 @@
 
 import os
 
-PROJECT_ROOT = r"C:\Users\Ashish\Downloads\powerbi-genai-dash"
+PROJECT_ROOT = r"C:\Users\Santhosh\Desktop\PowerBI\PBIP-GenAI-Dashboard"
 
 REPORT_PATH = os.path.join(
     PROJECT_ROOT,

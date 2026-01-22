@@ -9,11 +9,11 @@ class VisualIntent(BaseModel):
     top_n: Optional[int] = None
 
 class PhysicalBinding(BaseModel):
-    """Physical IR: Created by the Binder. Bridges Concept to Column."""
     concept_name: str
     table: str
     column: str
     kind: Literal["dimension", "measure"]
+    data_type: Optional[str] = None
     aggregation: Optional[str] = None
 
 class BoundVisual(BaseModel):
