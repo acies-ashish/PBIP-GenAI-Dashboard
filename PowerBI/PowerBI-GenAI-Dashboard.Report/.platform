@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PowerBI-GenAI-Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0ba7e762-1686-4772-848c-e76675ad58c6"
+  }
+}
