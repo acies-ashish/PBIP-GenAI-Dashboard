@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_1_3cbd71",
+  "name": "GenAI_Visual_999_d1a6f4",
   "position": {
-    "x": 340.69610543243192,
-    "y": 160.50572078150125,
+    "x": 700,
+    "y": 700,
     "z": 0,
-    "height": 399.75009704072011,
-    "width": 599.62514556108022,
-    "tabOrder": 1
+    "width": 600,
+    "height": 400,
+    "tabOrder": 1000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,7 +27,9 @@
                 }
               },
               "queryRef": "data.Product",
-              "active": true
+              "nativeQueryRef": "Product",
+              "active": true,
+              "displayName": "Product"
             }
           ]
         },
@@ -50,7 +52,8 @@
                 }
               },
               "queryRef": "Sum(data.Amount)",
-              "nativeQueryRef": "Sum of Amount"
+              "nativeQueryRef": "Amount",
+              "displayName": "Amount"
             }
           ]
         }
@@ -86,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Top 3 Products by Amount'"
+                  "Value": "'TEST: Top 3 Products by Amount'"
                 }
               }
             }
@@ -99,7 +102,8 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "e2b830394ac3bd527900",
+        "name": "d3df49cfa4c544a88f2c",
+        "type": "TopN",
         "field": {
           "Column": {
             "Expression": {
@@ -110,7 +114,6 @@
             "Property": "Product"
           }
         },
-        "type": "TopN",
         "filter": {
           "Version": 2,
           "From": [
@@ -198,25 +201,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "6efb5a5172aca421ed44",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "data"
-                  }
-                },
-                "Property": "Amount"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
