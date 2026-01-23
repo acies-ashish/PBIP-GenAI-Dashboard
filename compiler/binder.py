@@ -24,15 +24,23 @@ class VisualBinder:
             
             # Map resolved metadata to our Physical IR (Intermediate Representation)
             # This ensures the backend (pbip_writer) has all necessary schema info
-            binding = PhysicalBinding(
-                concept_name=concept,
-                table=res["entity"],
-                column=res["column"],
-                # Flag as measure if the metadata says it's a measure
-                kind="measure" if res.get("measure") else "dimension",
-                # Automatically apply SUM for measures to satisfy PBIP schema requirements
-                aggregation="sum" if res.get("measure") else None
-            )
+binding = PhysicalBinding(
+    concept_name=concept,
+    table=res["entity"],
+    column=res["column"],
+    kind="measure" if res.get("measure") else "dimension",
+    data_type=res.get("dataType"),
+    aggregation="sum" if res.get("measure") else None
+)
+
+print(
+    f"[BINDER] Concept='{concept}' → "
+    f"Table='{binding.table}', "
+    f"Column='{binding.column}', "
+    f"Type='{binding.kind}', "
+    f"DataType='{binding.data_type}'"
+)
+
             physical_bindings.append(binding)
 
         # Return a fully validated BoundVisual model

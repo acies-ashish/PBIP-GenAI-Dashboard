@@ -24,9 +24,10 @@ def generate_linguistic_metadata(semantic_index: dict) -> dict:
             entities[entity_id] = {
                 "kind": "measure" if is_measure else "column",
                 "binding": {
-                    "table": table_name, 
+                    "table": table_name,
                     "column": col,
-                    "measure": is_measure
+                    "measure": is_measure,
+                    "dataType": table_info["columns"][col]["dataType"]
                 },
                 "terms": _expand_terms(col)
             }

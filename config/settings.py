@@ -1,8 +1,9 @@
 # config/settings.py
-
+from dotenv import load_dotenv
 import os
+load_dotenv()
 
-PROJECT_ROOT = r"C:\Users\Ashish\Downloads\powerbi-genai-dash"
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 
 REPORT_PATH = os.path.join(
     PROJECT_ROOT,
