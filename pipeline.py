@@ -4,6 +4,7 @@ from discovery.linguistic import generate_linguistic_metadata
 from agents.visual_planner import agent_plan_visuals
 from compiler.binder import VisualBinder
 from backend.pbip_writer import materialize_visual
+from agents.layout_planner import LayoutPlanner
 from config.settings import SEMANTIC_MODEL_PATH, REPORT_PATH
 
 def run_genai_pipeline(user_query: str):
@@ -21,18 +22,28 @@ def run_genai_pipeline(user_query: str):
 
     # --- MIDDLE & BACKEND (Step 5 & 6) ---
     binder = VisualBinder(linguistic)
+    layout_planner = LayoutPlanner()
     
-    for i, intent in enumerate(intents, 1):
+    bound_visuals = []
+    
+    # 5a. Bind all visuals ( Semantic -> Physical )
+    for intent in intents:
         try:
-            # Deterministic Binding (Semantic -> Physical)
-            bound_visual = binder.bind(intent)
-            
-            # Deterministic Materialization (Physical -> PBIP)
-            # materialize_visual(bound_visual, REPORT_PATH, i)
-            
-            print(f"Successfully generated: {bound_visual.title}")
+            bound = binder.bind(intent)
+            bound_visuals.append(bound)
         except Exception as e:
-            print(f"Failed to generate visual {i}: {e}")
+            print(f"FAILED to bind visual '{intent.title}': {e}")
+            
+    # 5b. Plan Layout ( Assign positions )
+    planned_visuals = layout_planner.plan_layout(bound_visuals)
+
+    # 6. Materialize ( Physical -> PBIP )
+    for i, bound in enumerate(planned_visuals, 1):
+        try:
+            materialize_visual(bound, REPORT_PATH, i)
+            print(f"Successfully generated: {bound.title}")
+        except Exception as e:
+            print(f"Failed to generate visual {bound.title}: {e}")
 
 if __name__ == "__main__":
-    run_genai_pipeline("sales overview")
+    run_genai_pipeline("give me sales by region and sales by category")

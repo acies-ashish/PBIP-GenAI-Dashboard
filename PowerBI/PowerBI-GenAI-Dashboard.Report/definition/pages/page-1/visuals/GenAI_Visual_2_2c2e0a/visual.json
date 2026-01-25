@@ -1,19 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_1001_fe7d52",
+  "name": "GenAI_Visual_2_2c2e0a",
   "position": {
-    "x": 448.20465425777707,
-    "y": 15.142049130330307,
-    "z": 2000,
-    "height": 264.9858597807804,
-    "width": 428.51999038834771,
-    "tabOrder": 1000
+    "x": 650,
+    "y": 20,
+    "z": 0,
+    "width": 610,
+    "height": 680,
+    "tabOrder": 2
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "barChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
           "projections": [
             {
               "field": {
@@ -28,8 +28,13 @@
               },
               "queryRef": "data.Product",
               "nativeQueryRef": "Product",
-              "displayName": "Product"
-            },
+              "displayName": "Product",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
             {
               "field": {
                 "Aggregation": {
@@ -57,18 +62,24 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Aggregation": {
                 "Expression": {
-                  "SourceRef": {
-                    "Entity": "data"
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "data"
+                      }
+                    },
+                    "Property": "Amount"
                   }
                 },
-                "Property": "Product"
+                "Function": 0
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": true
       }
     },
     "visualContainerObjects": {
@@ -78,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'TEST: Product-wise Total Sales'"
+                  "Value": "'Sales by Category'"
                 }
               }
             },

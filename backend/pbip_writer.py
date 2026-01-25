@@ -263,12 +263,31 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
         }
 
     # E. Construct Final JSON
+    
+    # Defaults in case layout agent failed (fallback)
+    pos_x = 100
+    pos_y = 100
+    width = 400
+    height = 300
+    tab_order = index
+    
+    if bound.layout:
+        pos_x = bound.layout.x
+        pos_y = bound.layout.y
+        width = bound.layout.width
+        height = bound.layout.height
+        tab_order = bound.layout.tabOrder
+
     visual_container = {
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
         "name": visual_name,
         "position": {
-            "x": 10 + ((index-1) * 20), "y": 10 + ((index-1) * 20), "z": 0,
-            "width": 600, "height": 400, "tabOrder": index
+            "x": pos_x, 
+            "y": pos_y, 
+            "z": 0,
+            "width": width, 
+            "height": height, 
+            "tabOrder": tab_order
         },
         "visual": {
             "visualType": pbi_type,
