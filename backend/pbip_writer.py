@@ -47,6 +47,10 @@ VISUAL_REGISTRY = {
         "roles": {
             "measures": "Data" # Cards typically display a single measure
         }
+    },
+    "textbox": {
+        "pbi_type": "textbox",
+        "roles": {} 
     }
 }
 
@@ -161,17 +165,19 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
     dims = [b for b in bound.bindings if b.kind == "dimension"]
     measures = [b for b in bound.bindings if b.kind == "measure"]
 
-    # Special Handling for Cards: Only need 1 measure
+    # Special Handling for Cards:
     if bound.visual_type == "card":
         if not measures and dims:
              # If user asked for card of a dimension, treat it as Count of that dimension
              forced_meas = dims.pop(0)
              forced_meas.kind = "measure"
              forced_meas.aggregation = "count"
-             measures = [forced_meas]
-        elif len(measures) > 1:
-             # Cards only show one value usually
-             measures = measures[:1]
+             measures.append(forced_meas)
+             
+        # Allow multiple measures (up to 5 for now)
+        if len(measures) > 5:
+             print("[WRITER] Truncating card measures to 5.")
+             measures = measures[:5]
 
     # Chart Failsafe (Non-Card)
     elif bound.visual_type != "table" and not dims and len(measures) >= 2:
@@ -302,13 +308,89 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
     }
 
     # Inject objects for Card (from template) or Title for others
+    # Inject objects for Card (from template) or Title for others
     if bound.visual_type == "card":
-        # Card specific formatting from your template
-        visual_container["visual"]["visualContainerObjects"] = {
-            "padding": [{"properties": {"bottom": {"expr": {"Literal": {"Value": "5D"}}}}}],
-            "background": [{"properties": {"transparency": {"expr": {"Literal": {"Value": "0D"}}}}}],
-            "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}, "radius": {"expr": {"Literal": {"Value": "16D"}}}}}]
+        # New Multi-KPI Card Template Logic
+        visual_container["visual"]["objects"] = {
+             "cardCalloutArea": [{
+                 "properties": {
+                     "paddingUniform": {"expr": {"Literal": {"Value": "0L"}}}
+                 },
+                 "selector": {"id": "default"}
+             }],
+             "layout": [
+                 {
+                     "properties": {
+                         "alignment": {"expr": {"Literal": {"Value": "'top'"}}}
+                     }
+                 },
+                 {
+                     "properties": {
+                         "paddingUniform": {"expr": {"Literal": {"Value": "12L"}}}
+                     },
+                     "selector": {"id": "default"}
+                 }
+             ],
+             "value": [{
+                  "properties": {
+                      "horizontalAlignment": {"expr": {"Literal": {"Value": "'center'"}}}
+                  },
+                  "selector": {"id": "default"}
+             }],
+             # Padding logic: Applying default padding to all items
+             "padding": [{
+                 "properties": {
+                     "paddingIndividual": {"expr": {"Literal": {"Value": "true"}}},
+                     "leftMargin": {"expr": {"Literal": {"Value": "0L"}}},
+                     "rightMargin": {"expr": {"Literal": {"Value": "0L"}}}
+                 },
+                 "selector": {"id": "default"}
+             }],
+             "shapeCustomRectangle": [{
+                 "properties": {
+                     "rectangleRoundedCurveCustomStyle": {"expr": {"Literal": {"Value": "false"}}}
+                 },
+                 "selector": {"id": "default"}
+             }]
         }
+        
+        visual_container["visual"]["visualContainerObjects"] = {
+            "padding": [{
+                "properties": {
+                    "top": {"expr": {"Literal": {"Value": "5D"}}},
+                    "left": {"expr": {"Literal": {"Value": "20D"}}},
+                    "right": {"expr": {"Literal": {"Value": "20D"}}}
+                }
+            }]
+        }
+
+    elif bound.visual_type == "textbox":
+        # Use provided template for Textbox
+        visual_container["visual"]["objects"] = {
+             "general": [
+                {
+                  "properties": {
+                    "paragraphs": [
+                      {
+                        "textRuns": [
+                          {
+                            "value": bound.title, # Dynamic Title
+                            "textStyle": {
+                              "fontWeight": "bold",
+                              "fontFamily": "Segoe UI Semibold",
+                              "fontSize": "16pt"
+                            }
+                          }
+                        ],
+                        "horizontalTextAlignment": "center"
+                      }
+                    ]
+                  }
+                }
+              ]
+        }
+        # Textboxes don't have standard "title" visualContainerObject, they use "objects" body
+        
     else:
         # Standard Title
         visual_container["visual"]["visualContainerObjects"] = {

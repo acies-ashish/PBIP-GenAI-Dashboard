@@ -1,10 +1,10 @@
 import json
-from typing import List
+from typing import List, Tuple
 from llm.clients import planner_client
 from config.settings import DASHBOARD_MODEL
 from core.models import VisualIntent
 
-def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> List[VisualIntent]:
+def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[List[VisualIntent], str]:
     """
     Step 4: Abstract Visual Planning.
     Produces VisualIntent objects. It is forbidden from seeing table names.
@@ -20,14 +20,17 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> List[V
     Available Concepts: {available_concepts}
     
     ### VISUAL SELECTION RULES:
-    1. **Single Value / KPI**: If the user asks for a single aggregate (e.g., "total sales", "count of orders"), use "card".
+    1. **Single Value / KPI**: If the user asks for single aggregates (e.g., "total sales", "count of orders"), GROUP them into a SINGLE "card" visual with multiple concepts. Do NOT create multiple card visuals. Maximum 5 concepts per card.
     2. **Comparison**: If comparing a measure across categories (e.g., "sales by region"), use "bar" or "column".
     3. **Trend**: If analyzing over time (e.g., "sales over time", "monthly revenue"), use "line".
     4. **Distribution**: If asking for parts of a whole (e.g., "sales share by category"), use "pie".
     5. **Detailed List**: If asking for raw data or multiple columns without aggregation (e.g., "list products and prices"), use "table".
     6. **Top N**: If a ranking is implied (e.g., "top 5 products"), use "bar" and set "top_n".
 
-    Return a JSON object with a "charts" array.
+    Return a JSON object with:
+    1. "dashboard_title": A short, relevant title for the dashboard based on the query (e.g. "Sales Overview").
+    2. "charts": Array of visuals.
+    
     Each chart must follow this schema:
     {{
       "title": "Title",
@@ -45,8 +48,10 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> List[V
     
     try:
         raw_data = json.loads(response.choices[0].message.content)
+        title = raw_data.get("dashboard_title", "Dashboard")
         # Parse into Pydantic models for strict validation
-        return [VisualIntent(**chart) for chart in raw_data.get("charts", [])]
+        intents = [VisualIntent(**chart) for chart in raw_data.get("charts", [])]
+        return intents, title
     except Exception as e:
         print(f"[PLANNER ERROR] Failed to parse LLM response: {e}")
-        return []
+        return [], "Dashboard"
