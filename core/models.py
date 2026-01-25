@@ -8,6 +8,13 @@ class VisualIntent(BaseModel):
     concepts: List[str]
     top_n: Optional[int] = None
 
+class VisualLayout(BaseModel):
+    x: int
+    y: int
+    width: int
+    height: int
+    tabOrder: int
+
 class PhysicalBinding(BaseModel):
     concept_name: str
     table: str
@@ -23,3 +30,4 @@ class BoundVisual(BaseModel):
     bindings: List[PhysicalBinding]
     title: str
     top_n: Optional[int] = None
+    layout: Optional[VisualLayout] = None
