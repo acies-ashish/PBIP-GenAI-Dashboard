@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "AUTO_GENERATED",
+  "name": "GenAI_Visual_4_4d3a0a",
   "position": {
-    "x": 0,
-    "y": 0,
-    "z": 6000,
-    "width": 480,
-    "height": 320,
-    "tabOrder": 1000
+    "x": 650,
+    "y": 200,
+    "z": 0,
+    "width": 610,
+    "height": 240,
+    "tabOrder": 3
   },
   "visual": {
-    "visualType": "pieChart",
+    "visualType": "lineChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,16 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "__ENTITY__"
+                      "Entity": "data"
                     }
                   },
-                  "Property": "__CATEGORY__"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "__ENTITY__.__CATEGORY__",
-              "nativeQueryRef": "__CATEGORY__",
-              "active": true,
-              "displayName": "__CATEGORY__"
+              "queryRef": "data.Date",
+              "nativeQueryRef": "Date",
+              "displayName": "Date",
+              "active": true
             }
           ]
         },
@@ -42,26 +42,34 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "__ENTITY__"
+                          "Entity": "data"
                         }
                       },
-                      "Property": "__MEASURE__"
+                      "Property": "Amount"
                     }
                   },
-                  "Function": 5
+                  "Function": 0
                 }
               },
-              "queryRef": "CountNonNull(__ENTITY__.__MEASURE__)",
-              "nativeQueryRef": "Count of __MEASURE__"
+              "queryRef": "Sum(data.Amount)",
+              "nativeQueryRef": "Amount",
+              "displayName": "Amount"
             }
           ]
         }
       }
     },
-    "objects": {
+    "visualContainerObjects": {
       "title": [
         {
           "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales Trend Over Time'"
+                }
+              }
+            },
             "show": {
               "expr": {
                 "Literal": {
@@ -69,43 +77,10 @@
                 }
               }
             },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'__TITLE__'"
-                }
-              }
-            },
             "alignment": {
               "expr": {
                 "Literal": {
                   "Value": "'center'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "visualHeader": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "background": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }

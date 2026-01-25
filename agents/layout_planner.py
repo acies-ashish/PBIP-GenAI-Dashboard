@@ -13,7 +13,7 @@ class LayoutPlanner:
     GRID_COLS = 2
     GRID_ROWS = 2
 
-    def plan_layout(self, visuals: List[BoundVisual]) -> List[BoundVisual]:
+    def plan_layout(self, visuals: List[BoundVisual], dashboard_title: str = "Dashboard") -> List[BoundVisual]:
         """
         Assigns x, y, width, height, tabOrder to each visual.
         """
@@ -22,6 +22,27 @@ class LayoutPlanner:
         
         updated_visuals = []
         
+        # 0. HEADER (Compulsory)
+        header_height = 40 # Approx from template (37.85)
+        header_y = 10      # Approx from template (10.59)
+        header_x = 13      # Approx from template (13.62)
+        header_width = self.CANVAS_WIDTH - 2 * header_x # Center it roughly
+        
+        header_visual = BoundVisual(
+            visual_name="dashboard_header",
+            visual_type="textbox",
+            title=dashboard_title, # This will be the text content
+            bindings=[],
+            layout=VisualLayout(
+                x=int(header_x),
+                y=int(header_y),
+                width=int(1246), # From template
+                height=int(header_height),
+                tabOrder=0
+            )
+        )
+        updated_visuals.append(header_visual)
+
         # Simple Logic:
         # 1. Cards take top row (small height)
         # 2. Others take remaining grid
@@ -29,16 +50,19 @@ class LayoutPlanner:
         cards = [v for v in visuals if v.visual_type == "card"]
         charts = [v for v in visuals if v.visual_type != "card"]
         
-        current_y = self.PADDING
+        # Start Y below header
+        current_y = header_y + header_height + self.PADDING
         
         # PLACE CARDS (Top Row)
+        # PLACE CARDS (Stacked Vertically)
         if cards:
-            card_height = 150
-            card_width = (self.CANVAS_WIDTH - (len(cards) + 1) * self.PADDING) / len(cards)
+            card_height = 110
+            card_width = 1240
+            card_x = (self.CANVAS_WIDTH - card_width) // 2 # Center it: (1280 - 1240) / 2 = 20
             
             for i, card in enumerate(cards):
                 layout = VisualLayout(
-                    x=int(self.PADDING + i * (card_width + self.PADDING)),
+                    x=int(card_x),
                     y=int(current_y),
                     width=int(card_width),
                     height=int(card_height),
@@ -46,8 +70,9 @@ class LayoutPlanner:
                 )
                 card.layout = layout
                 updated_visuals.append(card)
-            
-            current_y += card_height + self.PADDING
+                
+                # Increment Y for next card (stacking)
+                current_y += card_height + self.PADDING
             
         # PLACE CHARTS (Grid below)
         if charts:
@@ -80,3 +105,4 @@ class LayoutPlanner:
                 
         # Re-merge to preserve original order if needed, but returning processed list is fine
         return updated_visuals
+

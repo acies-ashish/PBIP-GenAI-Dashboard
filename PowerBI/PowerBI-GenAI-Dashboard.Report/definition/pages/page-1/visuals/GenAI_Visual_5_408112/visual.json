@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_1_6d094e",
+  "name": "GenAI_Visual_5_408112",
   "position": {
     "x": 20,
-    "y": 20,
+    "y": 460,
     "z": 0,
     "width": 610,
-    "height": 680,
-    "tabOrder": 1
+    "height": 240,
+    "tabOrder": 4
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "pieChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,12 +23,12 @@
                       "Entity": "data"
                     }
                   },
-                  "Property": "Country"
+                  "Property": "Product"
                 }
               },
-              "queryRef": "data.Country",
-              "nativeQueryRef": "Country",
-              "displayName": "Country",
+              "queryRef": "data.Product",
+              "nativeQueryRef": "Product",
+              "displayName": "Product",
               "active": true
             }
           ]
@@ -89,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sales by Region'"
+                  "Value": "'Product Distribution'"
                 }
               }
             },
