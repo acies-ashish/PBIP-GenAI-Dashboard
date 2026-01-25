@@ -1,7 +1,7 @@
 from discovery.tmdl_parser import load_tmdl_files
 from discovery.indexer import extract_semantic_index
 from discovery.linguistic import generate_linguistic_metadata
-from agents.planner import agent_plan_visuals
+from agents.visual_planner import agent_plan_visuals
 from compiler.binder import VisualBinder
 from backend.pbip_writer import materialize_visual
 from config.settings import SEMANTIC_MODEL_PATH, REPORT_PATH
@@ -28,11 +28,11 @@ def run_genai_pipeline(user_query: str):
             bound_visual = binder.bind(intent)
             
             # Deterministic Materialization (Physical -> PBIP)
-            materialize_visual(bound_visual, REPORT_PATH, i)
+            # materialize_visual(bound_visual, REPORT_PATH, i)
             
             print(f"Successfully generated: {bound_visual.title}")
         except Exception as e:
             print(f"Failed to generate visual {i}: {e}")
 
 if __name__ == "__main__":
-    run_genai_pipeline("which are my top 3 products by amount?")
+    run_genai_pipeline("sales overview")

@@ -1,3 +1,5 @@
+# discovery/indexer.py
+
 def extract_semantic_index(tmdl_tables: dict) -> dict:
     """
     Step 1B: Categorizes TMDL artifacts into a semantic ground truth.
@@ -48,5 +50,21 @@ def extract_semantic_index(tmdl_tables: dict) -> dict:
     # Clean up sets for JSON compatibility
     semantic_index["all_dimensions"] = sorted(list(semantic_index["all_dimensions"]))
     semantic_index["all_measures"] = sorted(list(semantic_index["all_measures"]))
+
+    # ---------------- DEBUG: SEMANTIC INDEX ----------------
+    print("\n[INDEXER DEBUG] Semantic Index Summary")
+    for table, info in semantic_index["tables"].items():
+        print(f"  Table: {table}")
+        for col, meta in info["columns"].items():
+            is_measure = col in info["measures"]
+            print(
+                f"    Column: {col} | "
+                f"dataType={meta['dataType']} | "
+                f"summarizeBy={meta['summarizeBy']} | "
+                f"measure={is_measure}"
+            )
+        print("[INDEXER DEBUG END]\n")
+    # ------------------------------------------------------
+
 
     return semantic_index

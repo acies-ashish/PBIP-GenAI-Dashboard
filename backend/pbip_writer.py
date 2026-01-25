@@ -35,11 +35,17 @@ VISUAL_REGISTRY = {
             "measures": "Y"
         }
     },
-    "pie": { # Added based on your template
+    "pie": {
         "pbi_type": "pieChart",
         "roles": {
             "dimensions": "Category",
             "measures": "Y"
+        }
+    },
+    "card": { # Added based on your template
+        "pbi_type": "cardVisual",
+        "roles": {
+            "measures": "Data" # Cards typically display a single measure
         }
     }
 }
@@ -66,6 +72,15 @@ class FieldFactory:
         col_expr = FieldFactory.create_base_expression(binding, alias)
         agg_map = {"sum": 0, "avg": 1, "min": 2, "max": 3, "count": 4}
         func_id = agg_map.get(binding.aggregation, 0)
+        
+        # NOTE: Your card template shows 'Measure' instead of 'Aggregation' wrapper
+        # But 'Aggregation' wrapper is standard for most visuals. 
+        # The template shows: 
+        # "Measure": { "Expression": { ... }, "Property": "total_booking" }
+        # This implies it might be treating it as a raw measure (calculated measure) rather than an implicit aggregation.
+        # However, for GenAI implicit measures, we usually need the Aggregation wrapper.
+        # Let's stick to the standard Aggregation logic for now as it's safer for implicit measures.
+        
         return {
             "Aggregation": {
                 "Expression": col_expr, 
@@ -146,7 +161,20 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
     dims = [b for b in bound.bindings if b.kind == "dimension"]
     measures = [b for b in bound.bindings if b.kind == "measure"]
 
-    if bound.visual_type != "table" and not dims and len(measures) >= 2:
+    # Special Handling for Cards: Only need 1 measure
+    if bound.visual_type == "card":
+        if not measures and dims:
+             # If user asked for card of a dimension, treat it as Count of that dimension
+             forced_meas = dims.pop(0)
+             forced_meas.kind = "measure"
+             forced_meas.aggregation = "count"
+             measures = [forced_meas]
+        elif len(measures) > 1:
+             # Cards only show one value usually
+             measures = measures[:1]
+
+    # Chart Failsafe (Non-Card)
+    elif bound.visual_type != "table" and not dims and len(measures) >= 2:
         print("[WRITER] Converting first measure to dimension for chart safety.")
         forced_dim = measures.pop(0)
         forced_dim.kind = "dimension"
@@ -181,16 +209,22 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
             else:
                 field_expr = FieldFactory.create_base_expression(b)
                 q_ref = f"{b.table}.{b.column}"
-                query_state[role_name]["projections"].append({
+                proj = {
                     "field": field_expr,
                     "queryRef": q_ref,
                     "nativeQueryRef": human_name,
-                    "active": True,
                     "displayName": human_name
-                })
+                }
+                if bound.visual_type in ["bar", "column", "line", "pie"]:
+                    proj["active"] = True
+                    
+                query_state[role_name]["projections"].append(proj)
 
-    add_projection(config["roles"]["dimensions"], dims)
-    add_projection(config["roles"]["measures"], measures)
+    # Apply mappings based on registry
+    if "dimensions" in config["roles"]:
+        add_projection(config["roles"]["dimensions"], dims)
+    if "measures" in config["roles"]:
+        add_projection(config["roles"]["measures"], measures)
 
     # D. Additive Features
     sort_def = None
@@ -199,22 +233,31 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
     if bound.top_n and dims and measures:
         primary_dim = dims[0]
         primary_meas = measures[0]
-        
-        # Sort Definition (Top N)
         meas_expr, _ = FieldFactory.create_aggregation_expression(primary_meas)
         sort_def = {
             "sort": [{"field": meas_expr, "direction": "Descending"}],
             "isDefaultSort": True
         }
-
-        # Filter Config (Top N)
         filter_obj = build_top_n_filter(primary_dim, primary_meas, bound.top_n)
         filter_config = {"filters": [filter_obj]}
     
-    # Default Sort for Bar/Column/Pie charts (if Top N is NOT present)
     elif bound.visual_type in ["bar", "column", "pie"] and measures:
          meas_expr, _ = FieldFactory.create_aggregation_expression(measures[0])
          sort_def = {
+            "sort": [{"field": meas_expr, "direction": "Descending"}],
+            "isDefaultSort": True
+        }
+        
+    elif bound.visual_type == "table" and dims:
+        dim_expr = FieldFactory.create_base_expression(dims[0])
+        sort_def = {
+            "sort": [{"field": dim_expr, "direction": "Ascending"}]
+        }
+    
+    # Default Sort for Card (Descending by measure)
+    elif bound.visual_type == "card" and measures:
+        meas_expr, _ = FieldFactory.create_aggregation_expression(measures[0])
+        sort_def = {
             "sort": [{"field": meas_expr, "direction": "Descending"}],
             "isDefaultSort": True
         }
@@ -233,11 +276,29 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
                 "queryState": query_state
             },
             "visualContainerObjects": {
-                "title": [{"properties": {"text": {"expr": {"Literal": {"Value": f"'{bound.title}'"}}}}}]
+                # Title logic
             },
             "drillFilterOtherVisuals": True
         }
     }
+
+    # Inject objects for Card (from template) or Title for others
+    if bound.visual_type == "card":
+        # Card specific formatting from your template
+        visual_container["visual"]["visualContainerObjects"] = {
+            "padding": [{"properties": {"bottom": {"expr": {"Literal": {"Value": "5D"}}}}}],
+            "background": [{"properties": {"transparency": {"expr": {"Literal": {"Value": "0D"}}}}}],
+            "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}, "radius": {"expr": {"Literal": {"Value": "16D"}}}}}]
+        }
+    else:
+        # Standard Title
+        visual_container["visual"]["visualContainerObjects"] = {
+            "title": [{"properties": {
+                "text": {"expr": {"Literal": {"Value": f"'{bound.title}'"}}},
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "alignment": {"expr": {"Literal": {"Value": "'center'"}}}
+            }}]
+        }
 
     if sort_def:
         visual_container["visual"]["query"]["sortDefinition"] = sort_def

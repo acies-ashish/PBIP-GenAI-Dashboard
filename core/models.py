@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class VisualIntent(BaseModel):
     """Abstract IR: Produced by LLM Planner. Contains ZERO physical schema info."""
     title: str
-    visual_type: Literal["table", "bar", "column", "line"]
+    visual_type: Literal["table", "bar", "column", "line", "card", "pie"]
     concepts: List[str]
     top_n: Optional[int] = None
 

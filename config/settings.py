@@ -7,6 +7,7 @@ PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 
 REPORT_PATH = os.path.join(
     PROJECT_ROOT,
+    "PowerBI",
     "PowerBI-GenAI-Dashboard.Report",
     "definition",
     "pages",
@@ -16,6 +17,7 @@ REPORT_PATH = os.path.join(
 
 SEMANTIC_MODEL_PATH = os.path.join(
     PROJECT_ROOT,
+    "PowerBI",
     "PowerBI-GenAI-Dashboard.SemanticModel",
     "definition",
     "tables"

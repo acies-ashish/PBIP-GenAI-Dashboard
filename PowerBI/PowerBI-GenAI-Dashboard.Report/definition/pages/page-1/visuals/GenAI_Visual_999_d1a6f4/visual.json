@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "GenAI_Visual_999_d1a6f4",
   "position": {
-    "x": 700,
-    "y": 700,
-    "z": 0,
-    "width": 600,
-    "height": 400,
-    "tabOrder": 1000
+    "x": 12.113639304264245,
+    "y": 15.142049130330307,
+    "z": 2000,
+    "height": 264.9858597807804,
+    "width": 428.51999038834771,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "barChart",
@@ -103,7 +103,6 @@
     "filters": [
       {
         "name": "d3df49cfa4c544a88f2c",
-        "type": "TopN",
         "field": {
           "Column": {
             "Expression": {
@@ -114,6 +113,7 @@
             "Property": "Product"
           }
         },
+        "type": "TopN",
         "filter": {
           "Version": 2,
           "From": [

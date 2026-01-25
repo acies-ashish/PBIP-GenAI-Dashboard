@@ -3,32 +3,23 @@ from core.models import BoundVisual, PhysicalBinding
 import os
 
 # ---------------------------------------------------------
-# MOCK SCENARIO: "Top 3 Products by Amount"
+# MOCK SCENARIO: "Total Sales Amount"
 # ---------------------------------------------------------
-# This replicates the exact output expected from the Binder
-# for a Clustered Bar Chart with a Top N filter.
+# Card visual showing a single aggregated KPI
 
 mock_visual = BoundVisual(
-    visual_name="test_chart_001",
-    visual_type="bar", # Will map to clusteredBarChart
-    title="TEST: Top 3 Products by Amount",
-    top_n=3,
+    visual_name="test_card_001",
+    visual_type="card",  # Will map to Power BI card visual
+    title="TEST: Total Sales Amount",
+    top_n=None,  # Not applicable for card visuals
     bindings=[
-        # 1. Dimension Binding (Category/Axis)
-        PhysicalBinding(
-            concept_name="product",
-            table="data",
-            column="Product",
-            kind="dimension",
-            aggregation=None
-        ),
-        # 2. Measure Binding (Y-Axis/Values)
+        # 1. Measure Binding ONLY
         PhysicalBinding(
             concept_name="amount",
             table="data",
             column="Amount",
             kind="measure",
-            aggregation="sum" # Explicit aggregation
+            aggregation="sum"
         )
     ]
 )
@@ -36,21 +27,27 @@ mock_visual = BoundVisual(
 # ---------------------------------------------------------
 # EXECUTION
 # ---------------------------------------------------------
-# Define where to save the test visual
-# Change this path if your folder structure is different
-OUTPUT_DIR = os.path.join(os.getcwd(), "PowerBI", "PowerBI-GenAI-Dashboard.Report", "definition", "pages", "page-1", "visuals")
+OUTPUT_DIR = os.path.join(
+    os.getcwd(),
+    "PowerBI",
+    "PowerBI-GenAI-Dashboard.Report",
+    "definition",
+    "pages",
+    "page-1",
+    "visuals"
+)
 
-print(f"--- STARTING WRITER TEST ---")
+print(f"--- STARTING WRITER TEST (CARD VISUAL) ---")
 print(f"Target Visual: {mock_visual.title}")
-print(f"Top N: {mock_visual.top_n}")
+print(f"Visual Type: {mock_visual.visual_type}")
 
 try:
-    # Call the writer function directly
-    materialize_visual(mock_visual, OUTPUT_DIR, 999) # Using index 999 to stand out
-    
-    print(f"\n[SUCCESS] Visual generated successfully.")
-    print(f"Check folder: GenAI_Visual_999_...")
-    print(f"Verify 'visual.json' contains 'filterConfig' and 'sortDefinition'.")
+    # Use a unique index to avoid collisions
+    materialize_visual(mock_visual, OUTPUT_DIR, 1002)
+
+    print(f"\n[SUCCESS] Card visual generated successfully.")
+    print(f"Check folder: GenAI_Visual_1002_...")
+    print(f"Verify 'visual.json' uses 'card' and contains a single measure binding.")
 
 except Exception as e:
     print(f"\n[FAILURE] Writer crashed: {e}")
