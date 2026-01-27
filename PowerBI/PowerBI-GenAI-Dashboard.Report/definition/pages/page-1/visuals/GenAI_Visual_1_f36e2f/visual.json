@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_1_b6069f",
+  "name": "GenAI_Visual_1_f36e2f",
   "position": {
     "x": 13,
     "y": 10,
@@ -24,11 +24,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Overall Sales Overview",
+                    "value": "Sales Overview",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontFamily": "Segoe UI Semibold",
-                      "fontStyle": "italic",
                       "fontSize": "16pt"
                     }
                   }

@@ -47,3 +47,10 @@ TEMPLATE_MAP = {
 
 PLANNER_MODEL = "llama-3.3-70b-versatile"
 DASHBOARD_MODEL = "llama-3.3-70b-versatile"
+
+# -------------------------------
+# Synonym Generation Settings
+# -------------------------------
+SYNONYM_MODEL = PLANNER_MODEL  # Use same model as planner for synonym generation
+ENABLE_LLM_SYNONYMS = True  # Set to False to use basic fallback expansion only
+SYNONYM_CACHE_PATH = os.path.join(BASE_DIR, "cache", "synonyms_cache.json")  # Cache for generated synonyms

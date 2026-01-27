@@ -18,7 +18,8 @@ NUMERIC_TYPES = {
 }
 
 NUMERIC_CONCEPTS = {
-    "amount", "revenue", "sales", "value", "total", "cost", "price"
+    "amount", "revenue", "sales", "value", "total", "cost", "price",
+    "quantity", "qty", "count", "volume", "forecast", "demand" # NEW
 }
 
 

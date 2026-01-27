@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_6_27796e",
+  "name": "GenAI_Visual_3_57c926",
   "position": {
-    "x": 650,
-    "y": 460,
+    "x": 20,
+    "y": 200,
     "z": 0,
-    "width": 610,
-    "height": 240,
-    "tabOrder": 5
+    "width": 1240,
+    "height": 500,
+    "tabOrder": 2
   },
   "visual": {
-    "visualType": "columnChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,15 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "data"
+                      "Entity": "products_rows"
                     }
                   },
-                  "Property": "Country"
+                  "Property": "category"
                 }
               },
-              "queryRef": "data.Country",
-              "nativeQueryRef": "Country",
-              "displayName": "Country",
+              "queryRef": "products_rows.category",
+              "nativeQueryRef": "Category",
+              "displayName": "Category",
               "active": true
             }
           ]
@@ -42,18 +42,18 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "data"
+                          "Entity": "order_items_rows"
                         }
                       },
-                      "Property": "Amount"
+                      "Property": "total_price"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(data.Amount)",
-              "nativeQueryRef": "Amount",
-              "displayName": "Amount"
+              "queryRef": "Sum(order_items_rows.total_price)",
+              "nativeQueryRef": "Total Price",
+              "displayName": "Total Price"
             }
           ]
         }
@@ -67,10 +67,10 @@
                   "Column": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "data"
+                        "Entity": "order_items_rows"
                       }
                     },
-                    "Property": "Amount"
+                    "Property": "total_price"
                   }
                 },
                 "Function": 0
@@ -89,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sales by Country'"
+                  "Value": "'Sales by Category'"
                 }
               }
             },

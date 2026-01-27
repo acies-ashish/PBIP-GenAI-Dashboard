@@ -1,0 +1,68 @@
+table order_items_rows
+	lineageTag: 722beb12-aad3-430c-bca5-7e526c5f88ae
+
+	column order_item_id
+		dataType: string
+		lineageTag: 7c30a622-c7d4-4b75-b6cb-f110ba914c3e
+		summarizeBy: none
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: c8dddc68-209d-42ff-9d2a-13158d0ee3f4
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: e4f49d0f-dcbe-4c57-a238-30f704f30d76
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 94df716f-f9b7-4e59-ad25-8ca46d6bf1ed
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 20d24ee9-3f89-403b-a8a9-f2dbf2eaf8be
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_price
+		dataType: double
+		lineageTag: 92e410e2-8b47-44f0-837a-4f4e061aa250
+		summarizeBy: sum
+		sourceColumn: total_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition order_items_rows = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Santhosh\Downloads\order_items_rows.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_item_id", type text}, {"order_id", type text}, {"product_id", type text}, {"quantity", Int64.Type}, {"unit_price", type number}, {"total_price", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

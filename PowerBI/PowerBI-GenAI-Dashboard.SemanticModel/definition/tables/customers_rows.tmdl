@@ -1,0 +1,71 @@
+table customers_rows
+	lineageTag: 77bb2405-be1f-4928-9d7e-931c5a0614f5
+
+	column customer_id
+		dataType: string
+		lineageTag: 40868b44-7abf-48b4-8973-927b6db72440
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: 2c158d28-1c99-45f7-a1b9-7b6e45741f13
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 3cb0bb3e-2ef3-4928-8b27-1d1c0e6e3644
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: 819b96ca-2264-403c-ac9e-85f2aded1317
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 6b6bf847-9d43-4c11-b2f8-854974606a22
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column signup_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 17745578-d8b2-41f0-87a9-0a948a92a063
+		summarizeBy: none
+		sourceColumn: signup_date
+
+		variation Variation
+			isDefault
+			relationship: 12fcf687-2a95-43bd-b761-224caef33de6
+			defaultHierarchy: LocalDateTable_f25891ab-79ed-4941-b03b-0c9953bad69e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition customers_rows = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Santhosh\Downloads\customers_rows.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"customer_id", type text}, {"customer_name", type text}, {"email", type text}, {"phone", type text}, {"region", type text}, {"signup_date", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

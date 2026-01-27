@@ -1,0 +1,63 @@
+table orders_rows
+	lineageTag: 7f97bc11-7d58-44a9-8297-50dcd4435d9b
+
+	column order_id
+		dataType: string
+		lineageTag: 3f0bc280-1856-4556-9581-99607ad48f95
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: c819f8c4-d6d4-46ba-a698-304724a6f3b0
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 27675f04-7264-445e-85aa-ebbc9a3e238d
+		summarizeBy: none
+		sourceColumn: order_date
+
+		variation Variation
+			isDefault
+			relationship: 748e53ed-f9bb-4634-978e-39afbcc755ff
+			defaultHierarchy: LocalDateTable_582bbc24-8c8b-45de-9d5f-85d457a535f5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_status
+		dataType: string
+		lineageTag: 9b860819-66a6-461b-8638-e3efff357856
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: b0f92e98-e11c-446d-83c1-9e4690a2a68c
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	partition orders_rows = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Santhosh\Downloads\orders_rows.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_id", type text}, {"customer_id", type text}, {"order_date", type date}, {"order_status", type text}, {"payment_method", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

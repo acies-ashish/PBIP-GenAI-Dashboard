@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_2_84aaa3",
+  "name": "GenAI_Visual_2_195b6c",
   "position": {
     "x": 20,
     "y": 70,
@@ -22,38 +22,18 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "data"
+                          "Entity": "order_items_rows"
                         }
                       },
-                      "Property": "Amount"
+                      "Property": "total_price"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(data.Amount)",
-              "nativeQueryRef": "Amount",
-              "displayName": "Amount"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "data"
-                        }
-                      },
-                      "Property": "Boxes Shipped"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(data.Boxes Shipped)",
-              "nativeQueryRef": "Boxes Shipped",
-              "displayName": "Boxes Shipped"
+              "queryRef": "Sum(order_items_rows.total_price)",
+              "nativeQueryRef": "Total Price",
+              "displayName": "Total Price"
             }
           ]
         }
@@ -67,10 +47,10 @@
                   "Column": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "data"
+                        "Entity": "order_items_rows"
                       }
                     },
-                    "Property": "Amount"
+                    "Property": "total_price"
                   }
                 },
                 "Function": 0

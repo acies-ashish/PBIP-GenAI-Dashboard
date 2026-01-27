@@ -1,0 +1,49 @@
+table products_rows
+	lineageTag: e07e9886-b6aa-443f-acb8-dd3c87ef24f5
+
+	column product_id
+		dataType: string
+		lineageTag: 3f949da4-16ef-4ebc-b37f-65158f22cf33
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: cd4b93ce-8d55-4439-99f0-2baea2a2c73e
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: cbbccf57-ed61-41e3-9103-8e369e701957
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: fe357766-c291-4dca-8d83-bec111e17d15
+		summarizeBy: none
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition products_rows = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Santhosh\Downloads\products_rows.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", type text}, {"product_name", type text}, {"category", type text}, {"unit_price", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

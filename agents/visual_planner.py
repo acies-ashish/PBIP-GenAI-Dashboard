@@ -20,13 +20,42 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[
     Available Concepts: {available_concepts}
     
     ### VISUAL SELECTION RULES:
-    1. **Single Value / KPI**: If the user asks for single aggregates (e.g., "total sales", "count of orders"), GROUP them into a SINGLE "card" visual with multiple concepts. Do NOT create multiple card visuals. Maximum 5 concepts per card.
-    2. **Comparison**: If comparing a measure across categories (e.g., "sales by region"), use "bar" or "column".
-    3. **Trend**: If analyzing over time (e.g., "sales over time", "monthly revenue"), use "line".
-    4. **Distribution**: If asking for parts of a whole (e.g., "sales share by category"), use "pie".
-    5. **Detailed List**: If asking for raw data or multiple columns without aggregation (e.g., "list products and prices"), use "table".
-    6. **Top N**: If a ranking is implied (e.g., "top 5 products"), use "bar" and set "top_n".
-
+    
+    **PRIORITY 1 - KPIs/Cards (if user explicitly asks for KPIs, metrics, or key numbers):**
+    - If the user asks for "KPIs", "key metrics", "best metrics", "important numbers", or "top metrics", create ONE "card" visual containing ALL the requested KPIs
+    - Each card can contain up to 5 concepts (measures only, no dimensions)
+    - Card title should be descriptive (e.g., "Key Performance Indicators")
+    - Only include MEASURES (numeric values), never dimensions
+    - Examples of KPI requests: "show 3 KPIs", "top metrics", "key numbers", "important KPIs"
+    
+    **PRIORITY 2 - Charts (for comparisons, trends, distributions):**
+    1. **Comparison by Category**: If comparing a measure across categories (e.g., "sales by region", "sales by product"), use "bar" or "column"
+    2. **Trend Over Time**: If analyzing over time (e.g., "sales over time", "monthly revenue"), use "line"
+    3. **Distribution/Share**: If asking for parts of a whole (e.g., "sales share by category"), use "pie"
+    4. **Top N Rankings**: If ranking is implied (e.g., "top 5 products"), use "bar" and set "top_n" to the number
+    5. **Detailed Data Table**: If asking for raw data or multiple columns (e.g., "list products and prices"), use "table"
+    
+    **IMPORTANT DISTINCTIONS:**
+    - "Sales by category" = bar/column chart (comparison)
+    - "Total sales" or "Sales KPI" = card visual (single metric)
+    - "3 best KPIs" = ONE card with 3 measures
+    - "Sales and profit" (no breakdown) = ONE card with both measures
+    - "Sales by product AND show KPIs" = bar chart + separate card visual
+    
+    ### EXAMPLES:
+    
+    Query: "Show me 3 KPIs"
+    Response: {{"charts": [{{"title": "Key Metrics", "visual_type": "card", "concepts": ["total_price", "quantity", "unit_price"], "top_n": null}}]}}
+    
+    Query: "Sales by category"
+    Response: {{"charts": [{{"title": "Sales by Category", "visual_type": "bar", "concepts": ["category", "total_price"], "top_n": null}}]}}
+    
+    Query: "Sales by product and show 2 KPIs"
+    Response: {{"charts": [
+        {{"title": "Sales by Product", "visual_type": "bar", "concepts": ["product", "total_price"], "top_n": null}},
+        {{"title": "Key Metrics", "visual_type": "card", "concepts": ["total_price", "quantity"], "top_n": null}}
+    ]}}
+    
     Return a JSON object with:
     1. "dashboard_title": A short, relevant title for the dashboard based on the query (e.g. "Sales Overview").
     2. "charts": Array of visuals.
@@ -38,6 +67,8 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[
       "concepts": ["concept1", "concept2"],
       "top_n": null
     }}
+    
+    CRITICAL: If user asks for "N KPIs" or "N metrics", create ONE card with N measure concepts, NOT N separate cards.
     """
 
     response = client.chat.completions.create(
@@ -46,12 +77,26 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[
         response_format={"type": "json_object"}
     )
     
+    
     try:
         raw_data = json.loads(response.choices[0].message.content)
+        
+        # DEBUG: Print raw LLM response
+        print("\n[VISUAL PLANNER DEBUG] Raw LLM Response:")
+        print(json.dumps(raw_data, indent=2))
+        
         title = raw_data.get("dashboard_title", "Dashboard")
         # Parse into Pydantic models for strict validation
         intents = [VisualIntent(**chart) for chart in raw_data.get("charts", [])]
+        
+        # DEBUG: Print parsed intents
+        print(f"\n[VISUAL PLANNER DEBUG] Parsed {len(intents)} visual intents:")
+        for i, intent in enumerate(intents, 1):
+            print(f"  {i}. {intent.visual_type.upper()}: {intent.title} | concepts={intent.concepts} | top_n={intent.top_n}")
+        print("[VISUAL PLANNER DEBUG END]\n")
+        
         return intents, title
     except Exception as e:
         print(f"[PLANNER ERROR] Failed to parse LLM response: {e}")
+        print(f"[PLANNER ERROR] Raw response: {response.choices[0].message.content}")
         return [], "Dashboard"

@@ -63,4 +63,4 @@ def run_genai_pipeline(user_query: str):
             print(f"Failed to generate visual {bound.title}: {e}")
 
 if __name__ == "__main__":
-    run_genai_pipeline("Overall sales overview with product analysis")
+    run_genai_pipeline("Sales overview")

@@ -1,4 +1,5 @@
 # discovery/linguistic.py
+from agents.synonym_generator import agent_generate_synonyms
 
 def generate_linguistic_metadata(semantic_index: dict) -> dict:
     """
@@ -60,45 +61,33 @@ def generate_linguistic_metadata(semantic_index: dict) -> dict:
 
 def _expand_terms(name: str, is_measure: bool) -> list:
     """
-    Generates controlled synonyms.
+    Generates controlled synonyms using LLM agent.
     Prevents numeric concepts from leaking to dimensions.
+    
+    This function now uses the synonym_generator agent instead of hard-coded dictionaries.
     """
-
-    clean = name.lower()
-    variants = {
-        clean,
-        clean.replace("_", " "),
-        clean.replace("-", " ")
-    }
-
-    # -------------------------------
-    # Numeric measures ONLY
-    # -------------------------------
-    if is_measure:
-        numeric_synonyms = {
-            "amount": ["amount", "value", "total"],
-            "sales": ["sales", "revenue", "turnover"],
-            "cost": ["cost", "expense"],
-            "price": ["price", "rate"]
+    
+    # Use LLM agent to generate contextually relevant synonyms
+    try:
+        synonyms = agent_generate_synonyms(
+            field_name=name,
+            is_measure=is_measure,
+            data_type=None,  # Could be enhanced to pass actual data type
+            business_context=None  # Could be enhanced with domain context
+        )
+        
+        # The agent already returns a sorted list with the original variants included
+        return synonyms
+        
+    except Exception as e:
+        # Fallback to basic expansion if agent fails
+        print(f"[LINGUISTIC ERROR] Synonym generation failed for '{name}': {e}")
+        print("[LINGUISTIC] Using basic fallback expansion")
+        
+        clean = name.lower()
+        variants = {
+            clean,
+            clean.replace("_", " "),
+            clean.replace("-", " ")
         }
-
-        for key, syns in numeric_synonyms.items():
-            if key in clean:
-                variants.update(syns)
-
-    # -------------------------------
-    # Dimensions ONLY
-    # -------------------------------
-    else:
-        dimension_synonyms = {
-            "product": ["product", "item", "sku", "commodity"],
-            "country": ["country", "region", "market", "geo"],
-            "date": ["date", "time", "period", "day"],
-            "person": ["person", "employee", "salesperson"]
-        }
-
-        for key, syns in dimension_synonyms.items():
-            if key in clean:
-                variants.update(syns)
-
-    return sorted(variants)
+        return sorted(variants)

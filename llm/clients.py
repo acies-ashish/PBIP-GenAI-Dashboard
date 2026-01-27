@@ -9,3 +9,7 @@ def planner_client():
 
 def dashboard_client():
     return Groq(api_key=os.getenv("GROQ_DASHBOARD_KEY"))
+
+def synonym_client():
+    """Client for synonym generator agent - uses dedicated key to avoid rate limit conflicts"""
+    return Groq(api_key=os.getenv("GROQ_SYNONYM_KEY"))

@@ -10,11 +10,15 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_ProTooling = ["DevMode"]
 
-annotation PBI_QueryOrder = ["data"]
+annotation PBI_QueryOrder = ["customers_rows","products_rows","orders_rows","order_items_rows"]
 
-ref table data
 ref table DateTableTemplate_a81e6bcc-72e1-4207-bf38-1c64b84457c2
-ref table LocalDateTable_78f7b7fc-8173-4256-ba99-37d209dafc63
+ref table customers_rows
+ref table LocalDateTable_f25891ab-79ed-4941-b03b-0c9953bad69e
+ref table products_rows
+ref table orders_rows
+ref table LocalDateTable_582bbc24-8c8b-45de-9d5f-85d457a535f5
+ref table order_items_rows
 
 ref cultureInfo en-US
 
