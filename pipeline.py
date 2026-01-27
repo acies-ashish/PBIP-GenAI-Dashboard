@@ -8,6 +8,7 @@ from compiler.binder import VisualBinder
 from backend.pbip_writer import materialize_visual
 from agents.layout_planner import LayoutPlanner
 from config.settings import SEMANTIC_MODEL_PATH, REPORT_PATH
+from core.models import BoundVisual
 
 def run_genai_pipeline(user_query: str):
     # --- INFRASTRUCTURE (Step 1 & 2) ---
@@ -16,7 +17,12 @@ def run_genai_pipeline(user_query: str):
     linguistic = generate_linguistic_metadata(index)
     
     # Get flat list of terms for the LLM to choose from
-    concept_list = [e["terms"][0] for e in linguistic["entities"].values()]
+    # EXCLUDE tables to prevent the LLM from selecting them as concepts
+    concept_list = [
+        e["terms"][0] 
+        for e in linguistic["entities"].values() 
+        if e.get("kind") != "table"
+    ]
 
     # --- FRONTEND (Step 3 & 4) ---
     # Convert query into Abstract Intent
@@ -29,13 +35,47 @@ def run_genai_pipeline(user_query: str):
     bound_visuals = []
     
     # 5a. Bind all visuals ( Semantic -> Physical )
+    # 5a. Bind all visuals ( Semantic -> Physical )
+    date_binding = None
+    variation_table_name = None
+    
+    # Helper to find date variations from loaded TMDL
+    def _find_variation(tbl, col):
+        # We need to access individual table defs from tmdl
+        t_def = tmdl.get(tbl, {})
+        c_def = t_def.get("columns", {}).get(col, {})
+        return c_def.get("variationTable")
+
     for intent in intents:
         try:
             bound = binder.bind(intent)
             bound_visuals.append(bound)
+            
+            # Check for date columns to trigger slicer
+            if not date_binding:
+                for b in bound.bindings:
+                    if b.data_type and b.data_type.lower() in ["datetime", "date"]:
+                        vt = _find_variation(b.table, b.column)
+                        if vt:
+                            date_binding = b
+                            variation_table_name = vt
+                            break
+                            
         except Exception as e:
             print(f"FAILED to bind visual '{intent.title}': {e}")
             
+    # 5a.2. Auto-Inject Date Slicer
+    if date_binding and variation_table_name:
+        print(f"[PIPELINE] Auto-Injecting Date Slicer for {date_binding.table}.{date_binding.column}")
+        slicer = BoundVisual(
+            visual_name="date_slicer",
+            visual_type="date_slicer",
+            title="Date Slicer",
+            bindings=[date_binding],
+            metadata={"variationTable": variation_table_name}
+        )
+        bound_visuals.append(slicer)
+
     # 5b. Plan Layout ( Assign positions )
     planned_visuals = layout_planner.plan_layout(bound_visuals, dashboard_title=dashboard_title)
 
@@ -63,4 +103,4 @@ def run_genai_pipeline(user_query: str):
             print(f"Failed to generate visual {bound.title}: {e}")
 
 if __name__ == "__main__":
-    run_genai_pipeline("Sales overview")
+    run_genai_pipeline("Give me a comprehensive performance review of the last 6 months including sales trends, category distribution, and regional revenue breakdown.")

@@ -33,6 +33,10 @@ class VisualBinder:
             # --------------------------------------------
             # Step 5.2: Create Physical Binding
             # --------------------------------------------
+            if not res.get("column"):
+                print(f"[BINDER SKIP] Concept '{concept}' resolved to entity '{res.get('entity')}' with no column. Skipping.")
+                continue
+
             binding = PhysicalBinding(
                 concept_name=concept,
                 table=res["entity"],

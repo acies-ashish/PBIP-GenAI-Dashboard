@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_3_57c926",
+  "name": "GenAI_Visual_4_9d6069",
   "position": {
-    "x": 20,
+    "x": 650,
     "y": 200,
     "z": 0,
-    "width": 1240,
-    "height": 500,
-    "tabOrder": 2
+    "width": 610,
+    "height": 240,
+    "tabOrder": 3
   },
   "visual": {
     "visualType": "barChart",
@@ -45,15 +45,15 @@
                           "Entity": "order_items_rows"
                         }
                       },
-                      "Property": "total_price"
+                      "Property": "quantity"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(order_items_rows.total_price)",
-              "nativeQueryRef": "Total Price",
-              "displayName": "Total Price"
+              "queryRef": "Sum(order_items_rows.quantity)",
+              "nativeQueryRef": "Quantity",
+              "displayName": "Quantity"
             }
           ]
         }
@@ -70,7 +70,7 @@
                         "Entity": "order_items_rows"
                       }
                     },
-                    "Property": "total_price"
+                    "Property": "quantity"
                   }
                 },
                 "Function": 0
@@ -89,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sales by Category'"
+                  "Value": "'Category Distribution'"
                 }
               }
             },

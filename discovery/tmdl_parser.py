@@ -30,6 +30,7 @@ def _parse_table_content(tmdl_text: str) -> tuple:
     lines = tmdl_text.splitlines()
     table_name = None
     columns = {}
+    is_hidden = False
     current_col = None
 
     for raw in lines:
@@ -41,6 +42,11 @@ def _parse_table_content(tmdl_text: str) -> tuple:
             table_name = line.replace("table", "").strip().strip("'")
             continue
 
+        # Table Properties
+        if not current_col:
+            if line == "isHidden":
+                is_hidden = True
+            
         # Identify Column
         if line.startswith("column "):
             # Handle quoted or unquoted column names
@@ -51,10 +57,17 @@ def _parse_table_content(tmdl_text: str) -> tuple:
             continue
 
         # Column Metadata
-        if current_col and ":" in line:
-            if line.startswith("dataType:"):
-                columns[current_col]["dataType"] = line.split(":", 1)[1].strip().lower()
-            elif line.startswith("summarizeBy:"):
-                columns[current_col]["summarizeBy"] = line.split(":", 1)[1].strip().lower()
+        if current_col:
+            if ":" in line:
+                if line.startswith("dataType:"):
+                    columns[current_col]["dataType"] = line.split(":", 1)[1].strip().lower()
+                elif line.startswith("summarizeBy:"):
+                    columns[current_col]["summarizeBy"] = line.split(":", 1)[1].strip().lower()
+                elif line.startswith("defaultHierarchy:"):
+                    # Extract: LocalDateTable_... .'Date Hierarchy'
+                    val = line.split(":", 1)[1].strip()
+                    # We just want the table name part usually, which is before the dot
+                    if "." in val:
+                        columns[current_col]["variationTable"] = val.split(".")[0].strip()
 
-    return table_name, {"columns": columns}
+    return table_name, {"columns": columns, "isHidden": is_hidden}

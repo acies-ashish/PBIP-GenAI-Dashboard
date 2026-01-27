@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_2_195b6c",
+  "name": "GenAI_Visual_2_567cc1",
   "position": {
     "x": 20,
     "y": 70,
@@ -15,6 +15,26 @@
       "queryState": {
         "Data": {
           "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "order_items_rows"
+                        }
+                      },
+                      "Property": "quantity"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(order_items_rows.quantity)",
+              "nativeQueryRef": "Quantity",
+              "displayName": "Quantity"
+            },
             {
               "field": {
                 "Aggregation": {
@@ -50,7 +70,7 @@
                         "Entity": "order_items_rows"
                       }
                     },
-                    "Property": "total_price"
+                    "Property": "quantity"
                   }
                 },
                 "Function": 0

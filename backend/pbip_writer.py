@@ -42,11 +42,15 @@ VISUAL_REGISTRY = {
             "measures": "Y"
         }
     },
-    "card": { # Added based on your template
+    "card": {
         "pbi_type": "cardVisual",
         "roles": {
-            "measures": "Data" # Cards typically display a single measure
+            "measures": "Data"
         }
+    },
+    "date_slicer": {
+        "pbi_type": "slicer",
+        "roles": {}
     },
     "textbox": {
         "pbi_type": "textbox",
@@ -391,6 +395,10 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
         }
         # Textboxes don't have standard "title" visualContainerObject, they use "objects" body
         
+    elif bound.visual_type == "date_slicer":
+        # Date slicer handled below
+        pass
+        
     else:
         # Standard Title
         visual_container["visual"]["visualContainerObjects"] = {
@@ -400,6 +408,152 @@ def materialize_visual(bound: BoundVisual, output_dir: str, index: int):
                 "alignment": {"expr": {"Literal": {"Value": "'center'"}}}
             }}]
         }
+
+    # F. Date Slicer Special Logic
+    if bound.visual_type == "date_slicer":
+        # Extract metadata
+        b = bound.bindings[0]
+        table_name = b.table
+        col_name = b.column
+        # We need the local date table for the hierarchy references
+        local_date_table = bound.metadata.get("variationTable")
+        
+        if local_date_table:
+            print(f"[WRITER] Generating Date Slicer for {table_name}.{col_name} using {local_date_table}")
+            
+            # Helper to create hierarchy level field
+            def hierarchy_level(level):
+                return {
+                    "HierarchyLevel": {
+                        "Expression": {
+                            "Hierarchy": {
+                                "Expression": {
+                                    "PropertyVariationSource": {
+                                        "Expression": {
+                                            "SourceRef": {"Entity": table_name}
+                                        },
+                                        "Name": "Variation",
+                                        "Property": col_name
+                                    }
+                                },
+                                "Hierarchy": "Date Hierarchy"
+                            }
+                        },
+                        "Level": level
+                    }
+                }
+
+            # Projections
+            visual_container["visual"]["query"]["queryState"] = {
+                "Values": {
+                    "projections": [
+                        {
+                            "field": hierarchy_level("Year"),
+                            "queryRef": f"{table_name}.{col_name}.Variation.Date Hierarchy.Year",
+                            "nativeQueryRef": "Date Year",
+                            "active": True
+                        },
+                        {
+                            "field": hierarchy_level("Quarter"),
+                            "queryRef": f"{table_name}.{col_name}.Variation.Date Hierarchy.Quarter",
+                            "nativeQueryRef": "Date Quarter",
+                            "active": True
+                        },
+                        {
+                            "field": hierarchy_level("Month"),
+                            "queryRef": f"{table_name}.{col_name}.Variation.Date Hierarchy.Month",
+                            "nativeQueryRef": "Date Month",
+                            "active": False
+                        },
+                        {
+                            "field": hierarchy_level("Day"),
+                            "queryRef": f"{table_name}.{col_name}.Variation.Date Hierarchy.Day",
+                            "nativeQueryRef": "Date Day",
+                            "active": False
+                        }
+                    ]
+                }
+            }
+
+            # Expansion States (referencing the hidden table)
+            visual_container["visual"]["expansionStates"] = [{
+                "roles": ["Values"],
+                "levels": [
+                    {
+                        "queryRefs": [f"{table_name}.{col_name}.Variation.Date Hierarchy.Year"],
+                        "isCollapsed": True,
+                        "identityKeys": [{
+                            "Column": {
+                                "Expression": {"SourceRef": {"Entity": local_date_table}},
+                                "Property": "Year"
+                            }
+                        }],
+                        "isPinned": True
+                    },
+                    {
+                        "queryRefs": [f"{table_name}.{col_name}.Variation.Date Hierarchy.Quarter"],
+                        "isCollapsed": True,
+                        "identityKeys": [{
+                            "Column": {
+                                "Expression": {"SourceRef": {"Entity": local_date_table}},
+                                "Property": "Quarter"
+                            }
+                        }],
+                        "isPinned": True
+                    },
+                    {
+                        "queryRefs": [f"{table_name}.{col_name}.Variation.Date Hierarchy.Month"],
+                        "isCollapsed": True,
+                        "identityKeys": [{
+                            "Column": {
+                                "Expression": {"SourceRef": {"Entity": local_date_table}},
+                                "Property": "Month"
+                            }
+                        }],
+                        "isPinned": True
+                    },
+                    {
+                        "queryRefs": [f"{table_name}.{col_name}.Variation.Date Hierarchy.Day"],
+                        "isCollapsed": True,
+                        "isPinned": True
+                    }
+                ],
+                "root": {"children": []}
+            }]
+            
+            # Filter Config (Using keys for filters)
+            # Generating unique names for filters
+            visual_container["filterConfig"] = {
+                "filters": [
+                    {
+                        "name": uuid.uuid4().hex[:20],
+                        "field": hierarchy_level("Year"),
+                        "type": "Advanced"
+                    },
+                    {
+                        "name": uuid.uuid4().hex[:20],
+                        "field": hierarchy_level("Quarter"),
+                        "type": "Categorical"
+                    },
+                    {
+                        "name": uuid.uuid4().hex[:20],
+                        "field": hierarchy_level("Month"),
+                        "type": "Categorical"
+                    },
+                    {
+                        "name": uuid.uuid4().hex[:20],
+                        "field": hierarchy_level("Day"),
+                        "type": "Advanced"
+                    }
+                ]
+            }
+
+            # Slicer settings
+            visual_container["visual"]["objects"] = {
+                "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Basic'"}}}}}]
+            }
+        else:
+             print("[WRITER ERROR] Date Slicer requested but no variation table found!")
 
     if sort_def:
         visual_container["visual"]["query"]["sortDefinition"] = sort_def

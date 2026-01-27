@@ -13,6 +13,10 @@ def extract_semantic_index(tmdl_tables: dict) -> dict:
     }
 
     for table_name, table_data in tmdl_tables.items():
+        if table_data.get("isHidden"):
+            print(f"[INDEXER] Skipping hidden table: {table_name}")
+            continue
+
         cols = table_data.get("columns", {})
         dimensions = []
         measures = {}

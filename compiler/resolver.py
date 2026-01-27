@@ -76,8 +76,8 @@ def resolve_concept(concept: str, linguistic_metadata: dict) -> dict:
             data_type = binding.get("dataType")
 
             print(
-                f"[RESOLVER TRY] concept='{concept_norm}' "
-                f"→ column='{binding.get('column')}' "
+                f"[{term_text}] concept='{concept_norm}' "
+                f"-> column='{binding.get('column')}' "
                 f"(measure={is_measure}, dataType={data_type}) "
                 f"score={round(final_score, 3)}"
             )
@@ -114,5 +114,5 @@ def resolve_concept(concept: str, linguistic_metadata: dict) -> dict:
             f"Unresolvable or invalid concept: '{concept_norm}' (score={best_score})"
         )
 
-    print(f"[RESOLVER ACCEPT] '{concept_norm}' → {best_match}")
+    print(f"[RESOLVER ACCEPT] '{concept_norm}' -> {best_match}")
     return best_match

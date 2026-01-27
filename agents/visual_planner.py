@@ -19,9 +19,16 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[
     User Query: "{user_query}"
     Available Concepts: {available_concepts}
     
+    ### STRICT COLUMN SELECTION RULES:
+    1. NEVER invent column names. USE ONLY THE EXACT STRINGS from 'Available Concepts'.
+    2. If the user asks for "Date" or "Time", DO NOT use a generic "Date" column. Look for specific columns like 'order_date', 'ship_date', etc. in the list.
+    3. If a concept is not in the list, ignore it or find the closest match from the list.
+
+    
     ### VISUAL SELECTION RULES:
     
     **PRIORITY 1 - KPIs/Cards (if user explicitly asks for KPIs, metrics, or key numbers):**
+    - ALWAYS include a "Key Performance Indicators" card if the query implies a performance review or overview.
     - If the user asks for "KPIs", "key metrics", "best metrics", "important numbers", or "top metrics", create ONE "card" visual containing ALL the requested KPIs
     - Each card can contain up to 5 concepts (measures only, no dimensions)
     - Card title should be descriptive (e.g., "Key Performance Indicators")

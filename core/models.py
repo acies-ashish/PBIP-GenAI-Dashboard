@@ -31,3 +31,4 @@ class BoundVisual(BaseModel):
     title: str
     top_n: Optional[int] = None
     layout: Optional[VisualLayout] = None
+    metadata: Optional[dict] = None
