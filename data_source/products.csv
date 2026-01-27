@@ -1,0 +1,81 @@
+product_id,product_name,product_category,unit_price,standard_cost,lifecycle_status
+1,Product_0001,Automotive,3392.67,1210.14,Active
+2,Product_0002,Automotive,2533.62,1721.2,Active
+3,Product_0003,Consumer Tech,2954.63,63.1,Active
+4,Product_0004,Industrial,3082.51,821.36,Active
+5,Product_0005,Automotive,2044.14,1329.93,Active
+6,Product_0006,Automotive,2196.04,1458.68,Active
+7,Product_0007,Automotive,2080.28,650.48,Active
+8,Product_0008,Industrial,2372.83,1313.89,Active
+9,Product_0009,Industrial,166.11,135.95,Active
+10,Product_0010,Automotive,1612.28,1163.18,Active
+11,Product_0011,Automotive,2444.45,331.84,Active
+12,Product_0012,Consumer Tech,2411.01,349.13,Active
+13,Product_0013,Consumer Tech,3182.18,375.99,Active
+14,Product_0014,Automotive,2637.29,1501.15,Discontinued
+15,Product_0015,Consumer Tech,3968.93,1837.59,Active
+16,Product_0016,Automotive,1171.23,422.71,Active
+17,Product_0017,Consumer Tech,1468.65,487.11,Active
+18,Product_0018,Consumer Tech,1566.2,963.42,Active
+19,Product_0019,Automotive,1889.96,407.29,Active
+20,Product_0020,Industrial,3352.19,601.71,Active
+21,Product_0021,Consumer Tech,981.38,637.0,Active
+22,Product_0022,Automotive,3115.2,653.16,Active
+23,Product_0023,Industrial,1650.98,1240.42,Active
+24,Product_0024,Consumer Tech,2427.33,1168.68,Active
+25,Product_0025,Industrial,2548.54,948.26,Active
+26,Product_0026,Consumer Tech,1522.75,63.44,Active
+27,Product_0027,Consumer Tech,2074.83,625.49,Active
+28,Product_0028,Industrial,1681.47,1271.29,Active
+29,Product_0029,Consumer Tech,323.07,178.94,Active
+30,Product_0030,Automotive,1776.8,1164.85,Discontinued
+31,Product_0031,Industrial,434.7,232.85,Active
+32,Product_0032,Consumer Tech,1649.83,781.28,Active
+33,Product_0033,Automotive,2392.03,1483.81,Active
+34,Product_0034,Industrial,2338.69,1434.38,Active
+35,Product_0035,Consumer Tech,2667.35,2353.37,Active
+36,Product_0036,Industrial,426.28,277.45,Active
+37,Product_0037,Automotive,2625.89,1575.81,Active
+38,Product_0038,Automotive,1282.98,912.47,Active
+39,Product_0039,Automotive,1626.23,796.76,Active
+40,Product_0040,Consumer Tech,3439.05,415.03,Active
+41,Product_0041,Industrial,85.67,63.03,Active
+42,Product_0042,Industrial,2374.23,808.92,Active
+43,Product_0043,Automotive,2414.92,1271.97,Active
+44,Product_0044,Automotive,1616.81,1025.49,Active
+45,Product_0045,Automotive,986.26,631.41,Active
+46,Product_0046,Automotive,976.96,244.39,Active
+47,Product_0047,Automotive,3540.65,735.94,Active
+48,Product_0048,Automotive,1796.0,290.59,Active
+49,Product_0049,Automotive,1357.01,1209.85,Active
+50,Product_0050,Automotive,1822.67,1209.7,Active
+51,Product_0051,Automotive,2694.09,1676.09,Active
+52,Product_0052,Consumer Tech,625.74,315.32,Active
+53,Product_0053,Consumer Tech,1825.26,1621.51,Active
+54,Product_0054,Consumer Tech,2372.14,1088.84,Active
+55,Product_0055,Automotive,3796.9,806.65,Active
+56,Product_0056,Automotive,1047.48,833.66,Active
+57,Product_0057,Automotive,1469.04,822.14,Active
+58,Product_0058,Automotive,1548.47,756.24,Active
+59,Product_0059,Automotive,2441.88,1200.96,Active
+60,Product_0060,Consumer Tech,1459.09,825.37,Active
+61,Product_0061,Automotive,2157.37,1582.92,Active
+62,Product_0062,Automotive,3138.07,1532.38,Active
+63,Product_0063,Industrial,2836.27,1417.33,Active
+64,Product_0064,Consumer Tech,1813.16,963.44,Active
+65,Product_0065,Consumer Tech,3463.65,1380.28,Active
+66,Product_0066,Consumer Tech,2254.65,1078.62,Active
+67,Product_0067,Consumer Tech,2182.63,1097.74,Active
+68,Product_0068,Automotive,185.04,102.2,Active
+69,Product_0069,Consumer Tech,3947.44,56.37,Active
+70,Product_0070,Automotive,535.73,332.91,Active
+71,Product_0071,Automotive,962.97,437.74,Active
+72,Product_0072,Consumer Tech,254.2,141.74,Active
+73,Product_0073,Consumer Tech,2578.01,1751.44,Active
+74,Product_0074,Consumer Tech,937.57,770.1,Active
+75,Product_0075,Consumer Tech,761.04,438.26,Active
+76,Product_0076,Consumer Tech,399.79,349.45,Active
+77,Product_0077,Industrial,458.07,386.15,Active
+78,Product_0078,Consumer Tech,2359.45,1233.51,Active
+79,Product_0079,Industrial,2768.42,2038.14,Active
+80,Product_0080,Consumer Tech,1619.65,290.12,Active

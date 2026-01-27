@@ -1,0 +1,5 @@
+campaign_id,campaign_name,start_date,end_date,expected_uplift
+CAMP_NEWYEAR_MIX,New Year Promo,2024-01-05,2024-01-20,1.12
+CAMP_WEAK_BRAND,Brand Awareness (Weak),2024-03-10,2024-03-20,0.75
+CAMP_SUMMER_AUTO,Summer Auto Push,2024-06-01,2024-06-25,1.18
+CAMP_FESTIVE_TECH,Festive Tech Sale,2024-10-10,2024-11-15,1.35

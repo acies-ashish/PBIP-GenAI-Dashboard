@@ -1,0 +1,13 @@
+factory_id,factory_name,country,capacity_units_per_day,active_flag
+1,Factory_001,India,1285,1
+2,Factory_002,Mexico,2225,1
+3,Factory_003,India,1403,1
+4,Factory_004,India,1211,1
+5,Factory_005,USA,2794,1
+6,Factory_006,Vietnam,2731,1
+7,Factory_007,India,3295,1
+8,Factory_008,Vietnam,1046,1
+9,Factory_009,Vietnam,3268,1
+10,Factory_010,USA,2971,1
+11,Factory_011,Vietnam,2422,1
+12,Factory_012,India,2860,1
