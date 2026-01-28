@@ -1,0 +1,169 @@
+{
+  "tables": {
+    "customers_rows": {
+      "columns": {
+        "customer_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "customer_name": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "email": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "phone": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "region": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "signup_date": {
+          "dataType": "datetime",
+          "summarizeBy": "none"
+        }
+      },
+      "dimensions": [
+        "customer_id",
+        "customer_name",
+        "email",
+        "phone",
+        "region",
+        "signup_date"
+      ],
+      "measures": {}
+    },
+    "orders_rows": {
+      "columns": {
+        "order_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "customer_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "order_date": {
+          "dataType": "datetime",
+          "summarizeBy": "none"
+        },
+        "order_status": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "payment_method": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        }
+      },
+      "dimensions": [
+        "order_id",
+        "customer_id",
+        "order_date",
+        "order_status",
+        "payment_method"
+      ],
+      "measures": {}
+    },
+    "order_items_rows": {
+      "columns": {
+        "order_item_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "order_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "product_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "quantity": {
+          "dataType": "int64",
+          "summarizeBy": "sum"
+        },
+        "unit_price": {
+          "dataType": "double",
+          "summarizeBy": "sum"
+        },
+        "total_price": {
+          "dataType": "double",
+          "summarizeBy": "sum"
+        }
+      },
+      "dimensions": [
+        "order_item_id",
+        "order_id",
+        "product_id"
+      ],
+      "measures": {
+        "quantity": {
+          "dataType": "int64",
+          "summarizeBy": "sum"
+        },
+        "unit_price": {
+          "dataType": "double",
+          "summarizeBy": "sum"
+        },
+        "total_price": {
+          "dataType": "double",
+          "summarizeBy": "sum"
+        }
+      }
+    },
+    "products_rows": {
+      "columns": {
+        "product_id": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "product_name": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "category": {
+          "dataType": "string",
+          "summarizeBy": "none"
+        },
+        "unit_price": {
+          "dataType": "double",
+          "summarizeBy": "none"
+        }
+      },
+      "dimensions": [
+        "product_id",
+        "product_name",
+        "category",
+        "unit_price"
+      ],
+      "measures": {}
+    }
+  },
+  "all_dimensions": [
+    "category",
+    "customer_id",
+    "customer_name",
+    "email",
+    "order_date",
+    "order_id",
+    "order_item_id",
+    "order_status",
+    "payment_method",
+    "phone",
+    "product_id",
+    "product_name",
+    "region",
+    "signup_date",
+    "unit_price"
+  ],
+  "all_measures": [
+    "quantity",
+    "total_price",
+    "unit_price"
+  ]
+}

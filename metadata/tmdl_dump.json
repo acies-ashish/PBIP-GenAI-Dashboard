@@ -1,0 +1,207 @@
+{
+  "customers_rows": {
+    "columns": {
+      "customer_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "customer_name": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "email": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "phone": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "region": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "signup_date": {
+        "dataType": "datetime",
+        "summarizeBy": "none",
+        "variationTable": "LocalDateTable_f25891ab-79ed-4941-b03b-0c9953bad69e"
+      }
+    },
+    "isHidden": false
+  },
+  "DateTableTemplate_a81e6bcc-72e1-4207-bf38-1c64b84457c2": {
+    "columns": {
+      "Date": {
+        "dataType": "datetime",
+        "summarizeBy": "none"
+      },
+      "Year = YEAR([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "MonthNo = MONTH([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "Month = FORMAT([Date], \"MMMM\")": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "QuarterNo = INT(([MonthNo] + 2) / 3)": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "Quarter = \"Qtr \" & [QuarterNo]": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "Day = DAY([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      }
+    },
+    "isHidden": true
+  },
+  "LocalDateTable_582bbc24-8c8b-45de-9d5f-85d457a535f5": {
+    "columns": {
+      "Date": {
+        "dataType": "datetime",
+        "summarizeBy": "none"
+      },
+      "Year = YEAR([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "MonthNo = MONTH([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "Month = FORMAT([Date], \"MMMM\")": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "QuarterNo = INT(([MonthNo] + 2) / 3)": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "Quarter = \"Qtr \" & [QuarterNo]": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "Day = DAY([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      }
+    },
+    "isHidden": true
+  },
+  "LocalDateTable_f25891ab-79ed-4941-b03b-0c9953bad69e": {
+    "columns": {
+      "Date": {
+        "dataType": "datetime",
+        "summarizeBy": "none"
+      },
+      "Year = YEAR([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "MonthNo = MONTH([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "Month = FORMAT([Date], \"MMMM\")": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "QuarterNo = INT(([MonthNo] + 2) / 3)": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      },
+      "Quarter = \"Qtr \" & [QuarterNo]": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "Day = DAY([Date])": {
+        "dataType": "int64",
+        "summarizeBy": "none"
+      }
+    },
+    "isHidden": true
+  },
+  "orders_rows": {
+    "columns": {
+      "order_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "customer_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "order_date": {
+        "dataType": "datetime",
+        "summarizeBy": "none",
+        "variationTable": "LocalDateTable_582bbc24-8c8b-45de-9d5f-85d457a535f5"
+      },
+      "order_status": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "payment_method": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      }
+    },
+    "isHidden": false
+  },
+  "order_items_rows": {
+    "columns": {
+      "order_item_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "order_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "product_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "quantity": {
+        "dataType": "int64",
+        "summarizeBy": "sum"
+      },
+      "unit_price": {
+        "dataType": "double",
+        "summarizeBy": "sum"
+      },
+      "total_price": {
+        "dataType": "double",
+        "summarizeBy": "sum"
+      }
+    },
+    "isHidden": false
+  },
+  "products_rows": {
+    "columns": {
+      "product_id": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "product_name": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "category": {
+        "dataType": "string",
+        "summarizeBy": "none"
+      },
+      "unit_price": {
+        "dataType": "double",
+        "summarizeBy": "none"
+      }
+    },
+    "isHidden": false
+  }
+}

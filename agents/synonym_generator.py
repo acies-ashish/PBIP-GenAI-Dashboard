@@ -2,6 +2,7 @@ import json
 from typing import List, Optional
 from llm.clients import synonym_client
 from config.settings import PLANNER_MODEL
+from llm.token_tracker import tracker
 
 def agent_generate_synonyms(
     field_name: str,
@@ -94,6 +95,9 @@ Return ONLY a JSON object with this structure:
             temperature=0.3,  # Lower temperature for more consistent results
             max_tokens=500
         )
+        
+        # Track usage
+        tracker.track(response.usage)
         
         # Parse response
         result = json.loads(response.choices[0].message.content)

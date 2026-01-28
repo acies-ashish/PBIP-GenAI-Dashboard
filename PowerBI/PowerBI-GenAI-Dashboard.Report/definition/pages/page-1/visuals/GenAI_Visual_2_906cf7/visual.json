@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_2_567cc1",
+  "name": "GenAI_Visual_2_906cf7",
   "position": {
     "x": 20,
     "y": 70,
@@ -15,6 +15,26 @@
       "queryState": {
         "Data": {
           "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "order_items_rows"
+                        }
+                      },
+                      "Property": "total_price"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(order_items_rows.total_price)",
+              "nativeQueryRef": "Total Price",
+              "displayName": "Total Price"
+            },
             {
               "field": {
                 "Aggregation": {
@@ -45,15 +65,15 @@
                           "Entity": "order_items_rows"
                         }
                       },
-                      "Property": "total_price"
+                      "Property": "unit_price"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(order_items_rows.total_price)",
-              "nativeQueryRef": "Total Price",
-              "displayName": "Total Price"
+              "queryRef": "Sum(order_items_rows.unit_price)",
+              "nativeQueryRef": "Unit Price",
+              "displayName": "Unit Price"
             }
           ]
         }
@@ -70,7 +90,7 @@
                         "Entity": "order_items_rows"
                       }
                     },
-                    "Property": "quantity"
+                    "Property": "total_price"
                   }
                 },
                 "Function": 0

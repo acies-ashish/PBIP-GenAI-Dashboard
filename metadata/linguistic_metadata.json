@@ -1,0 +1,411 @@
+{
+  "language": "en-US",
+  "entities": {
+    "customers_rows": {
+      "kind": "table",
+      "binding": {
+        "table": "customers_rows"
+      },
+      "terms": [
+        "customers_rows",
+        "customers rows"
+      ]
+    },
+    "customers_rows.customer_id": {
+      "kind": "column",
+      "binding": {
+        "table": "customers_rows",
+        "column": "customer_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "account",
+        "buyer",
+        "client",
+        "customer",
+        "customer id",
+        "customer_id",
+        "user"
+      ]
+    },
+    "customers_rows.customer_name": {
+      "kind": "column",
+      "binding": {
+        "table": "customers_rows",
+        "column": "customer_name",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "account",
+        "buyer",
+        "client",
+        "customer",
+        "customer name",
+        "customer_name",
+        "purchaser"
+      ]
+    },
+    "customers_rows.email": {
+      "kind": "column",
+      "binding": {
+        "table": "customers_rows",
+        "column": "email",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "address",
+        "contact email",
+        "email",
+        "email address"
+      ]
+    },
+    "customers_rows.phone": {
+      "kind": "column",
+      "binding": {
+        "table": "customers_rows",
+        "column": "phone",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "contact number",
+        "handset",
+        "mobile",
+        "phone",
+        "telephone"
+      ]
+    },
+    "customers_rows.region": {
+      "kind": "column",
+      "binding": {
+        "table": "customers_rows",
+        "column": "region",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "area",
+        "district",
+        "locale",
+        "region",
+        "territory",
+        "zone"
+      ]
+    },
+    "customers_rows.signup_date": {
+      "kind": "column",
+      "binding": {
+        "table": "customers_rows",
+        "column": "signup_date",
+        "measure": false,
+        "dataType": "datetime"
+      },
+      "terms": [
+        "enrollment date",
+        "join date",
+        "registration date",
+        "signup date",
+        "signup_date",
+        "start date"
+      ]
+    },
+    "orders_rows": {
+      "kind": "table",
+      "binding": {
+        "table": "orders_rows"
+      },
+      "terms": [
+        "orders_rows",
+        "orders rows"
+      ]
+    },
+    "orders_rows.order_id": {
+      "kind": "column",
+      "binding": {
+        "table": "orders_rows",
+        "column": "order_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "invoice",
+        "order",
+        "order id",
+        "order_id",
+        "purchase",
+        "sale",
+        "transaction"
+      ]
+    },
+    "orders_rows.customer_id": {
+      "kind": "column",
+      "binding": {
+        "table": "orders_rows",
+        "column": "customer_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "account",
+        "client",
+        "client id",
+        "customer",
+        "customer account",
+        "customer id",
+        "customer_id"
+      ]
+    },
+    "orders_rows.order_date": {
+      "kind": "column",
+      "binding": {
+        "table": "orders_rows",
+        "column": "order_date",
+        "measure": false,
+        "dataType": "datetime"
+      },
+      "terms": [
+        "date",
+        "order date",
+        "order_date",
+        "purchase date",
+        "sale date",
+        "transaction date"
+      ]
+    },
+    "orders_rows.order_status": {
+      "kind": "column",
+      "binding": {
+        "table": "orders_rows",
+        "column": "order_status",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "fulfillment status",
+        "order state",
+        "order status",
+        "order_status",
+        "shipment status",
+        "status"
+      ]
+    },
+    "orders_rows.payment_method": {
+      "kind": "column",
+      "binding": {
+        "table": "orders_rows",
+        "column": "payment_method",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "payment method",
+        "payment mode",
+        "payment option",
+        "payment type",
+        "payment_method",
+        "tender"
+      ]
+    },
+    "order_items_rows": {
+      "kind": "table",
+      "binding": {
+        "table": "order_items_rows"
+      },
+      "terms": [
+        "order_items_rows",
+        "order items rows"
+      ]
+    },
+    "order_items_rows.order_item_id": {
+      "kind": "column",
+      "binding": {
+        "table": "order_items_rows",
+        "column": "order_item_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "item",
+        "line item",
+        "order item",
+        "order item id",
+        "order_item_id",
+        "product",
+        "sku"
+      ]
+    },
+    "order_items_rows.order_id": {
+      "kind": "column",
+      "binding": {
+        "table": "order_items_rows",
+        "column": "order_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "invoice",
+        "order",
+        "order id",
+        "order_id",
+        "purchase",
+        "sale",
+        "transaction"
+      ]
+    },
+    "order_items_rows.product_id": {
+      "kind": "column",
+      "binding": {
+        "table": "order_items_rows",
+        "column": "product_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "goods",
+        "item",
+        "merchandise",
+        "product",
+        "product id",
+        "product_id",
+        "sku"
+      ]
+    },
+    "order_items_rows.quantity": {
+      "kind": "measure",
+      "binding": {
+        "table": "order_items_rows",
+        "column": "quantity",
+        "measure": true,
+        "dataType": "int64"
+      },
+      "terms": [
+        "amount",
+        "numeric quantity",
+        "overall quantity",
+        "quantity",
+        "total amount",
+        "total count"
+      ]
+    },
+    "order_items_rows.unit_price": {
+      "kind": "measure",
+      "binding": {
+        "table": "order_items_rows",
+        "column": "unit_price",
+        "measure": true,
+        "dataType": "double"
+      },
+      "terms": [
+        "cost per item",
+        "item price",
+        "price per unit",
+        "unit cost",
+        "unit price",
+        "unit rate",
+        "unit_price"
+      ]
+    },
+    "order_items_rows.total_price": {
+      "kind": "measure",
+      "binding": {
+        "table": "order_items_rows",
+        "column": "total_price",
+        "measure": true,
+        "dataType": "double"
+      },
+      "terms": [
+        "grand total",
+        "overall price",
+        "total amount",
+        "total cost",
+        "total price",
+        "total revenue",
+        "total_price"
+      ]
+    },
+    "products_rows": {
+      "kind": "table",
+      "binding": {
+        "table": "products_rows"
+      },
+      "terms": [
+        "products_rows",
+        "products rows"
+      ]
+    },
+    "products_rows.product_id": {
+      "kind": "column",
+      "binding": {
+        "table": "products_rows",
+        "column": "product_id",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "goods",
+        "item",
+        "merchandise",
+        "product",
+        "product id",
+        "product_id",
+        "sku"
+      ]
+    },
+    "products_rows.product_name": {
+      "kind": "column",
+      "binding": {
+        "table": "products_rows",
+        "column": "product_name",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "article",
+        "goods",
+        "item",
+        "merchandise",
+        "product",
+        "product name",
+        "product_name"
+      ]
+    },
+    "products_rows.category": {
+      "kind": "column",
+      "binding": {
+        "table": "products_rows",
+        "column": "category",
+        "measure": false,
+        "dataType": "string"
+      },
+      "terms": [
+        "category",
+        "classification",
+        "genre",
+        "group",
+        "kind",
+        "type"
+      ]
+    },
+    "products_rows.unit_price": {
+      "kind": "column",
+      "binding": {
+        "table": "products_rows",
+        "column": "unit_price",
+        "measure": false,
+        "dataType": "double"
+      },
+      "terms": [
+        "charge",
+        "cost",
+        "fee",
+        "price",
+        "rate",
+        "unit price",
+        "unit_price"
+      ]
+    }
+  }
+}

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_4_9d6069",
+  "name": "GenAI_Visual_5_0002d9",
   "position": {
-    "x": 650,
-    "y": 200,
+    "x": 20,
+    "y": 460,
     "z": 0,
     "width": 610,
     "height": 240,
-    "tabOrder": 3
+    "tabOrder": 4
   },
   "visual": {
     "visualType": "barChart",
@@ -20,15 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "products_rows"
+                      "Entity": "customers_rows"
                     }
                   },
-                  "Property": "category"
+                  "Property": "region"
                 }
               },
-              "queryRef": "products_rows.category",
-              "nativeQueryRef": "Category",
-              "displayName": "Category",
+              "queryRef": "customers_rows.region",
+              "nativeQueryRef": "Region",
+              "displayName": "Region",
               "active": true
             }
           ]
@@ -45,15 +45,15 @@
                           "Entity": "order_items_rows"
                         }
                       },
-                      "Property": "quantity"
+                      "Property": "total_price"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(order_items_rows.quantity)",
-              "nativeQueryRef": "Quantity",
-              "displayName": "Quantity"
+              "queryRef": "Sum(order_items_rows.total_price)",
+              "nativeQueryRef": "Total Price",
+              "displayName": "Total Price"
             }
           ]
         }
@@ -70,7 +70,7 @@
                         "Entity": "order_items_rows"
                       }
                     },
-                    "Property": "quantity"
+                    "Property": "total_price"
                   }
                 },
                 "Function": 0
@@ -89,7 +89,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Category Distribution'"
+                  "Value": "'Regional Revenue Breakdown'"
                 }
               }
             },

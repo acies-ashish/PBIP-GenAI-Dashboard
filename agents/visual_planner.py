@@ -3,6 +3,7 @@ from typing import List, Tuple
 from llm.clients import planner_client
 from config.settings import DASHBOARD_MODEL
 from core.models import VisualIntent
+from llm.token_tracker import tracker
 
 def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[List[VisualIntent], str]:
     """
@@ -83,6 +84,9 @@ def agent_plan_visuals(user_query: str, available_concepts: List[str]) -> Tuple[
         messages=[{"role": "user", "content": prompt}],
         response_format={"type": "json_object"}
     )
+    
+    # Track usage
+    tracker.track(response.usage)
     
     
     try:

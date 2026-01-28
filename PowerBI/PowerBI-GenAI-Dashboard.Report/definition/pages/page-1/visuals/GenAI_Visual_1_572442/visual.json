@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "GenAI_Visual_1_32ca19",
+  "name": "GenAI_Visual_1_572442",
   "position": {
     "x": 13,
     "y": 10,
@@ -24,7 +24,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "6-Month Performance Review",
+                    "value": "Performance Review",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontFamily": "Segoe UI Semibold",
